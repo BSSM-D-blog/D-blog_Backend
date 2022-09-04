@@ -14,19 +14,19 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long usercode;
+    private Long userKey;
 
     @Column
-    private String username;
+    private String id;
 
     @Column
-    private String userid;
+    private String pw;
 
     @Column
-    private String userpass;
+    private String name;
 
     @Column
-    private String userprofile;
+    private String profile;
 
     @Column
     @CreatedDate
@@ -36,17 +36,17 @@ public class UserEntity {
     public UserEntity() {
     }
 
-    public UserEntity(Long usercode, String username, String userid, String userpass, String userprofile, LocalDateTime created){
-        this.usercode = usercode;
-        this.username = username;
-        this.userid = userid;
-        this.userpass = userpass;
-        this.userprofile = userprofile;
+    public UserEntity(Long userKey, String id, String pw, String name, String profile, LocalDateTime created){
+        this.userKey = userKey;
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.profile = profile;
         this.created = created;
     }
 
     @Override
     public String toString(){
-        return "UserDto = { usercode = " + usercode + " username = " + username + " userid = " + userid + " userpass = " + userpass + " userprofile = " + userprofile + " created = " + created;
+        return "UserDto = { userKey = " + userKey + " id = " + id + " pw = " + pw + " name = " + name + " profile = " + profile  + " created = " + created;
     }
 }

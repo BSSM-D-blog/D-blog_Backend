@@ -13,7 +13,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping("/api/user")
+    @PostMapping("/api/signup")
     public void InsertUser(UserDto dto){
         System.out.println(dto.toString());
 

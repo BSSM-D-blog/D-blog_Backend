@@ -3,23 +3,23 @@ package com.example.Dblog.dto;
 import com.example.Dblog.entity.UserEntity;
 
 public class UserDto {
-    private String username;
-    private String userid;
-    private String userpass;
-    private String userprofile;
+    private String id;
+    private String pw;
+    private String name;
+    private String profile;
 
-    public UserDto(String username, String userid, String userpass, String userprofile){
-        this.username = username;
-        this.userid = userid;
-        this.userpass = userpass;
-        this.userprofile = userprofile;
+    public UserDto(String id, String pw, String name, String profile){
+        this.id = id;
+        this.pw = pw;
+        this.name = name;
+        this.profile = profile;
     }
 
     @Override
     public String toString() {
-        return "UserDto = { username = " + username + " userid = " + userid + " userpass = " + userpass + " userprofile = " + userprofile;
+        return "UserDto = { id = " + id + " pw = " + pw + " name = " + name + " userprofile = " + profile;
     }
     public UserEntity toEntity(){
-        return new UserEntity(null, username, userid, userpass, userprofile, null);
+        return new UserEntity(null, id, pw, name, profile, null);
     }
 }

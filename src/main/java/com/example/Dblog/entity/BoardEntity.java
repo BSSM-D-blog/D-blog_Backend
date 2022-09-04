@@ -1,5 +1,6 @@
 package com.example.Dblog.entity;
 
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,13 +11,14 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="board")
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_usercode")
+    @JoinColumn(name = "user_userKey")
     private UserEntity user;
 
     @Column(length = 5000)
@@ -35,13 +37,6 @@ public class BoardEntity {
 
     @Column
     private Long hit;
-
-    @ManyToOne
-    @JoinColumn(name = "files_filecode")
-    private String file;
-
-    public BoardEntity() {
-    }
 
     public BoardEntity(Long id, UserEntity user ,String content, String title, LocalDateTime created, Long commentCnt, Long hit){
         this.id = id;

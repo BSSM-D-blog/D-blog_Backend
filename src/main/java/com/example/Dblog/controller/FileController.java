@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class FileController {
     @Autowired
     FileRepository fileRepository;
-
-    @PostMapping("/api/post/file")
-    public
+//
+//    @PostMapping("/api/post/file")
+//    public
 }
