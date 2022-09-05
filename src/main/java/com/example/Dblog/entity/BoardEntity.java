@@ -1,5 +1,6 @@
 package com.example.Dblog.entity;
 
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,11 +16,15 @@ import java.time.LocalDateTime;
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postKey;
 
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "user_userKey")
-    private UserEntity user;
+    private UserEntity userKey;
+
+    @OneToMany
+    @JoinColumn(name = "category_category")
+    private CategoryEntity category;
 
     @Column(length = 5000)
     private String content;
@@ -33,23 +38,27 @@ public class BoardEntity {
     private LocalDateTime created;
 
     @Column
-    private Long commentCnt;
+    private int commentCnt;
 
     @Column
-    private Long hit;
+    private int viewCnt;
 
-    public BoardEntity(Long id, UserEntity user ,String content, String title, LocalDateTime created, Long commentCnt, Long hit){
-        this.id = id;
-        this.user = user;
+    @Builder
+    public BoardEntity(Long postKey, UserEntity userKey ,String content, String title, LocalDateTime created, int commentCnt, int viewCnt, CategoryEntity category){
+        this.postKey = postKey;
+        this.userKey = userKey;
         this.content = content;
         this.title = title;
         this.created = created;
         this.commentCnt = commentCnt;
-        this.hit = hit;
+        this.viewCnt = viewCnt;
+        this.category = category;
     }
 
     @Override
     public String toString(){
-        return "BoardEntity { id = " + id + " content = " + content + " title = " + title + " created" + created + " commentCnt = " + commentCnt + " hit = " + hit + " user = " + user;
+        return "BoardEntity { postKey = " + postKey + " content = " + content +
+                " title = " + title + " created" + created + " commentCnt = " + commentCnt +
+                " viewCnt = " + viewCnt + " userKey = " + userKey + " category = " + category;
     }
 }

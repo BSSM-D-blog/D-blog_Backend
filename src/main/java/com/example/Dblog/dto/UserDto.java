@@ -17,9 +17,16 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto = { id = " + id + " pw = " + pw + " name = " + name + " userprofile = " + profile;
+        return "UserDto = { id = " + id + " pw = " + pw + " name = " + name + " profile = " + profile;
     }
     public UserEntity toEntity(){
-        return new UserEntity(null, id, pw, name, profile, null);
+        return UserEntity.builder()
+                .userKey(null)
+                .id(id)
+                .pw(pw)
+                .name(name)
+                .created(null)
+                .profile(profile)
+                .build();
     }
 }

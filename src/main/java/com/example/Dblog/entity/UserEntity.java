@@ -1,5 +1,7 @@
 package com.example.Dblog.entity;
 
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -10,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "user")
 @EntityListeners(AuditingEntityListener.class)
+@NoArgsConstructor
 public class UserEntity {
 
     @Id
@@ -33,9 +36,7 @@ public class UserEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime created;
 
-    public UserEntity() {
-    }
-
+    @Builder
     public UserEntity(Long userKey, String id, String pw, String name, String profile, LocalDateTime created){
         this.userKey = userKey;
         this.id = id;
