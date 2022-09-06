@@ -1,7 +1,7 @@
 package com.example.Dblog.dto;
 
 import com.example.Dblog.entity.CategoryEntity;
-import com.example.Dblog.entity.UserEntity;
+import com.example.Dblog.user.UserEntity;
 
 public class CategoryDto {
     private UserEntity user;
@@ -10,7 +10,6 @@ public class CategoryDto {
     public CategoryEntity toEntity(){
         return CategoryEntity.builder()
                 .category(null)
-                .user(user)
                 .name(name)
                 .build();
     }

@@ -1,5 +1,6 @@
 package com.example.Dblog.entity;
 
+import com.example.Dblog.user.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,11 +22,16 @@ public class FileEntity {
     @Column
     private String filePath;
 
+//    @ManyToMany
+//    @JoinColumn(name = "user_userKey")
+//    private UserEntity user;
+
     @Builder
-    public FileEntity(Long id, String originalFileName, String saveFileName, String filePath){
+    public FileEntity(Long id, String originalFileName, String saveFileName, String filePath /*UserEntity user*/){
         this.id = id;
         this.originalFileName = originalFileName;
         this.saveFileName = saveFileName;
         this.filePath = filePath;
+        //this.user = user;
     }
 }

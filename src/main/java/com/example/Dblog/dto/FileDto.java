@@ -21,8 +21,6 @@ public class FileDto {
                 .build();
         return build;
     }
-
-    @Builder
     public FileDto(String originalFileName, String saveFileName, String filePath){
         this.originalFileName = originalFileName;
         this.saveFileName = saveFileName;

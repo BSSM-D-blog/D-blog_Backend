@@ -2,19 +2,19 @@ package com.example.Dblog.dto;
 
 import com.example.Dblog.entity.BoardEntity;
 import com.example.Dblog.entity.CategoryEntity;
-import com.example.Dblog.entity.UserEntity;
+import com.example.Dblog.user.UserEntity;
 
 public class BoardDto {
-    private UserEntity userKey;
+//    private UserEntity userKey;
     private String content;
     private String title;
-    private CategoryEntity category;
+    //private CategoryEntity category;
 
-    public BoardDto(UserEntity userKey,String content, String title, CategoryEntity category){
-        this.userKey = userKey;
+    public BoardDto(/*UserEntity userKey*/String content, String title /*CategoryEntity category*/){
+//        this.userKey = userKey;
         this.content = content;
         this.title = title;
-        this.category = category;
+        //this.category = category;
     }
 
     @Override
@@ -25,10 +25,10 @@ public class BoardDto {
     public BoardEntity toEntity(){
         return BoardEntity.builder()
                 .postKey(null)
-                .userKey(userKey)
+                //.userKey(userKey)
                 .content(content)
                 .title(title)
-                .category(category)
+                //.category(category)
                 .created(null)
                 .commentCnt(0)
                 .viewCnt(0)

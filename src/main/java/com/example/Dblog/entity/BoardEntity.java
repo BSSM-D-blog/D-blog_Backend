@@ -1,5 +1,6 @@
 package com.example.Dblog.entity;
 
+import com.example.Dblog.user.UserEntity;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,13 +19,13 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postKey;
 
-    @ManyToMany
-    @JoinColumn(name = "user_userKey")
-    private UserEntity userKey;
+//    @ManyToMany
+//    @JoinColumn(name = "user_userKey")
+//    private UserEntity userKey;
 
-    @OneToMany
-    @JoinColumn(name = "category_category")
-    private CategoryEntity category;
+//    @OneToMany
+//    @JoinColumn(name = "category_category")
+//    private CategoryEntity category;
 
     @Column(length = 5000)
     private String content;
@@ -44,21 +45,21 @@ public class BoardEntity {
     private int viewCnt;
 
     @Builder
-    public BoardEntity(Long postKey, UserEntity userKey ,String content, String title, LocalDateTime created, int commentCnt, int viewCnt, CategoryEntity category){
+    public BoardEntity(Long postKey /*UserEntity userKey*/ ,String content, String title, LocalDateTime created, int commentCnt, int viewCnt /*CategoryEntity category*/){
         this.postKey = postKey;
-        this.userKey = userKey;
+        //this.userKey = userKey;
         this.content = content;
         this.title = title;
         this.created = created;
         this.commentCnt = commentCnt;
         this.viewCnt = viewCnt;
-        this.category = category;
+        //this.category = category;
     }
 
     @Override
     public String toString(){
         return "BoardEntity { postKey = " + postKey + " content = " + content +
                 " title = " + title + " created" + created + " commentCnt = " + commentCnt +
-                " viewCnt = " + viewCnt + " userKey = " + userKey + " category = " + category;
+                " viewCnt = " + viewCnt/* " userKey = " + userKey " category = " + category*/;
     }
 }
