@@ -1,4 +1,4 @@
-package com.example.Dblog.repository;
+package com.example.Dblog.user;
 
 import com.example.Dblog.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
