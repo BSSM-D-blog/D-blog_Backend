@@ -1,4 +1,4 @@
-package com.example.Dblog.entity;
+package com.example.Dblog.category;
 
 import com.example.Dblog.user.UserEntity;
 import lombok.Builder;
@@ -14,10 +14,6 @@ public class CategoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long category;
-
-//    @OneToMany
-//    @JoinColumn(name = "user_userKey")
-//    private List<UserEntity> userKey;
 
     @Column(length = 200)
     private String name;

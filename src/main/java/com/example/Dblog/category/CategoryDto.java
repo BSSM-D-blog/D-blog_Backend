@@ -1,6 +1,5 @@
-package com.example.Dblog.dto;
+package com.example.Dblog.category;
 
-import com.example.Dblog.entity.CategoryEntity;
 import com.example.Dblog.user.UserEntity;
 
 public class CategoryDto {

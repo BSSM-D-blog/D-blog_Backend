@@ -1,6 +1,5 @@
-package com.example.Dblog.entity;
+package com.example.Dblog.board;
 
-import com.example.Dblog.user.UserEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +7,7 @@ import javax.persistence.*;
 @Entity
 @Table(name="files")
 @NoArgsConstructor
-public class FileEntity {
+public class BoardPicture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,16 +21,20 @@ public class FileEntity {
     @Column
     private String filePath;
 
-//    @ManyToMany
-//    @JoinColumn(name = "user_userKey")
-//    private UserEntity user;
+    @Column
+    private Long fileSize;
+
+    @Column
+    private Long board;
+
 
     @Builder
-    public FileEntity(Long id, String originalFileName, String saveFileName, String filePath /*UserEntity user*/){
+    public BoardPicture(Long id, String originalFileName, String saveFileName, String filePath, Long board, Long fileSize){
         this.id = id;
         this.originalFileName = originalFileName;
         this.saveFileName = saveFileName;
         this.filePath = filePath;
-        //this.user = user;
+        this.board = board;
+        this.fileSize = fileSize;
     }
 }
