@@ -1,39 +1,54 @@
 package com.example.Dblog.board;
 
+import com.example.Dblog.file.FileDto;
+import com.example.Dblog.file.FileService;
 import com.example.Dblog.user.UserEntity;
+import com.example.Dblog.util.MD5Generator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.net.URI;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 public class BoardController {
 
-    private BoardService boardService;
-    @PostMapping("/api/board/post")
-    public ResponseEntity<?> Post(
-            @Valid @RequestParam("user") UserEntity user,
-            @Valid @RequestParam("title") String title,
-            @Valid @RequestParam("content") String content,
-            MultipartHttpServletRequest multipartHttpServletRequest) throws Exception{
-        BoardEntity board = boardService.addBoard(BoardEntity.builder()
-                .postKey(null)
-                .title(title)
-                .content(content)
-                .viewCnt(0)
-                .commentCnt(0)
-                .created(null)
-                .build(), (List<MultipartFile>) multipartHttpServletRequest);
+    private final BoardService boardService;
+    private final FileService fileService;
 
-        URI uriLocation = new URI("/board/" + board.getPostKey());
+    @PostMapping("/api/board")
+    public String save(@RequestParam("file") MultipartFile files, @RequestBody BoardCreateForm params){
+        try{
+            String origFilename = files.getOriginalFilename();
+            String filename = new MD5Generator(origFilename).toString();
+            String savePath = System.getProperty("user.dir") + "\\files";
+            if(!new File(savePath).exists()){
+                try{
+                    new File(savePath).mkdir();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            String filePath = savePath + "\\" + filename;
+            files.transferTo(new File(filePath));
 
-        return ResponseEntity.created(uriLocation).body("{}");
+            FileDto fileDto = new FileDto();
+            fileDto.setOriginalname(origFilename);
+            fileDto.setFilename(filename);
+            fileDto.setFilepath(filePath);
+
+            Long fileId = fileService.saveFile(fileDto);
+            boardService.cretePost(params, fileId);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "success";
     }
 }
