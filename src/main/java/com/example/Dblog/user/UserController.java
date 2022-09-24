@@ -1,29 +1,37 @@
 package com.example.Dblog.user;
 
+import com.example.Dblog.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
 public class UserController {
+
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
+    private final UserRepository userRepository;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    @PostMapping("/api/signup")
-    public String Signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult){
-        if(bindingResult.hasErrors()) {
-            return "";
-        }
-        if(!userCreateForm.getPassword1().equals(userCreateForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordIncorrect", "2개의 패스워드가 일치하지 않습니다.");
-            return "";
-        }
-        userService.create(userCreateForm.getUsername(), userCreateForm.getPassword1(), userCreateForm.getNickname());
+    @PostMapping("/signup")
+    public boolean Signup(@Valid @RequestBody UserCreateForm userCreateForm, BindingResult bindingResult){
+        boolean result = userService.create(userCreateForm, bindingResult);
+        if(result) return true;
+        return false;
+    }
 
-        return "success";
+    @PostMapping("/login")
+    public String Login(@RequestBody Map<String, String> user) {
+        UserEntity member = userRepository.findByUsername(user.get("username")).
+            orElseThrow(()-> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+        return jwtTokenProvider.createToken(member.getUsername(), member.getRoles());
     }
 }

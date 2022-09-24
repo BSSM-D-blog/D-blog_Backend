@@ -22,12 +22,12 @@ import java.util.List;
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postKey;
+    private Long id;
 
-    @Column(length = 5000)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
     @Column
@@ -36,27 +36,13 @@ public class BoardEntity {
     private LocalDateTime created;
 
     @Column
-    private int commentCnt;
+    @CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
+    private LocalDateTime modifyDate;
 
     @Column
-    private int viewCnt;
-
-    @ManyToOne
-    @JoinColumn(name = "userKey")
-    private UserEntity userKey;
+    private String user;
 
     @Column
-    private List pictures;
-
-
-    @Builder
-    public BoardEntity(Long postKey, String content, String title, LocalDateTime created, int commentCnt, int viewCnt, UserEntity user){
-        this.postKey = postKey;
-        this.content = content;
-        this.title = title;
-        this.created = created;
-        this.commentCnt = commentCnt;
-        this.viewCnt = viewCnt;
-        this.userKey = user;
-    }
+    private Long fileid;
 }
