@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,28 +25,32 @@ public class BoardController {
     private final FileService fileService;
 
     @PostMapping("/api/board")
-    public String save(@RequestParam("file") MultipartFile files, @RequestBody BoardCreateForm params){
+    public String save(@RequestParam("file") Optional<MultipartFile> files, BoardCreateForm params){
         try{
-            String origFilename = files.getOriginalFilename();
-            String filename = new MD5Generator(origFilename).toString();
-            String savePath = System.getProperty("user.dir") + "\\files";
-            if(!new File(savePath).exists()){
-                try{
-                    new File(savePath).mkdir();
-                }catch (Exception e){
-                    e.printStackTrace();
+            if(files.isPresent()) {
+                String origFilename = files.get().getOriginalFilename();
+                String filename = new MD5Generator(origFilename).toString();
+                String savePath = System.getProperty("user.dir") + "\\files";
+                if(!new File(savePath).exists()){
+                    try{
+                        new File(savePath).mkdir();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
+                String filePath = savePath + "\\" + filename;
+                files.get().transferTo(new File(filePath));
+
+                FileDto fileDto = new FileDto();
+                fileDto.setOriginalname(origFilename);
+                fileDto.setFilename(filename);
+                fileDto.setFilepath(filePath);
+
+                Long fileId = fileService.saveFile(fileDto);
+                boardService.cretePost(params, fileId);
+            }else{
+                boardService.cretePost(params);
             }
-            String filePath = savePath + "\\" + filename;
-            files.transferTo(new File(filePath));
-
-            FileDto fileDto = new FileDto();
-            fileDto.setOriginalname(origFilename);
-            fileDto.setFilename(filename);
-            fileDto.setFilepath(filePath);
-
-            Long fileId = fileService.saveFile(fileDto);
-            boardService.cretePost(params, fileId);
         }catch (Exception e) {
             e.printStackTrace();
         }
