@@ -20,25 +20,38 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class JwtTokenProvider {
-    private String secretKey = "dblogsecretkey";
-    private Long tokenValidTime = 30 * 60 * 1000L;
+    private String accessSecretkey = "dblogaccesssecretkey";
+    private String refreshSecretKey = "dblogrefreshsecretkey";
+    private Long accessTokenValidTime = 30 * 60 * 1000L;
+    private Long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 14;
+
     private final UserDetailsService userDetailsService;
 
     @PostConstruct
     protected void init() {
-        secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        accessSecretkey = Base64.getEncoder().encodeToString(accessSecretkey.getBytes());
     }
 
-    public String createToken(String userPk, List<String> roles) {
+    public Token createAccessToken(String userPk, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userPk);
         claims.put("roles", roles);
         Date now = new Date();
-        return Jwts.builder()
+
+        String accessToken = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + tokenValidTime))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .setExpiration(new Date(now.getTime()+accessTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, accessSecretkey)
                 .compact();
+
+        String refreshToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime()+refreshTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, refreshSecretKey)
+                .compact();
+
+        return Token.builder().accessToken(accessToken).refreshToken(refreshToken).key(userPk).build();
     }
 
     public Authentication getAuthentication(String token) {
@@ -47,7 +60,7 @@ public class JwtTokenProvider {
     }
 
     public String getUserPk(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(accessSecretkey).parseClaimsJws(token).getBody().getSubject();
     }
 
     public String resolveToken(HttpServletRequest request) {
@@ -56,10 +69,38 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String jwtToken) {
         try{
-            Jws<Claims> claims  = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            Jws<Claims> claims  = Jwts.parser().setSigningKey(accessSecretkey).parseClaimsJws(jwtToken);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public String validateRefreshToken(RefreshToken refreshTokenObj){
+        String refreshToken = refreshTokenObj.getRefreshToken();
+        try {
+            Jws<Claims> claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken);
+            if (!claims.getBody().getExpiration().before(new Date())) {
+                return recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("roles"));
+            }
+        }catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
+
+    public String recreationAccessToken(String username, Object roles){
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("roles", roles);
+        Date now = new Date();
+
+        String accessToken = Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + accessTokenValidTime))
+                .signWith(SignatureAlgorithm.HS256, accessSecretkey)
+                .compact();
+
+        return accessToken;
     }
 }
