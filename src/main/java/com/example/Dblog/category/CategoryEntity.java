@@ -18,14 +18,6 @@ public class CategoryEntity {
     @Column(length = 200)
     private String name;
 
-    @Builder
-    public CategoryEntity(Long category,  String name){
-        this.category = category;
-        this.name = name;
-    }
-
-    @Override
-    public String toString(){
-        return "category { category = " + category + " name = " + name;
-    }
+    @Column
+    private Long userid;
 }
