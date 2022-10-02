@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
-
 import java.util.*;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
@@ -34,13 +34,4 @@ public class UserService {
         return true;
     }
 
-    public Long jwtParser(String token){
-        Base64.Decoder decoder = Base64.getDecoder();
-        String[] splitToken = token.split("\\.");
-        String header = new String(decoder.decode(splitToken[0].getBytes()));
-        String[] splitHeader = header.split(",");
-        String[] split = splitHeader[1].split(":");
-        String id = split[0].substring(3, split[0].length()-2);
-        return Long.parseLong(id);
-    }
 }
