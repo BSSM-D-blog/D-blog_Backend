@@ -3,11 +3,15 @@ package com.example.Dblog.user;
 import com.example.Dblog.jwt.JwtService;
 import com.example.Dblog.jwt.JwtTokenProvider;
 import com.example.Dblog.jwt.Token;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -25,18 +29,21 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public Token Login(@RequestBody Map<String, String> user) {
+    public Map<String, String> Login(@RequestBody Map<String, String> user) {
         UserEntity member = userRepository.findByUsername(user.get("username")).
             orElseThrow(()-> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
         Token tokenDto = jwtTokenProvider.createAccessToken(member.getUsername(), member.getRoles());
         jwtService.login(tokenDto);
-        return tokenDto;
+        Map<String, String> token = new HashMap<>();
+        token.put("accessToken", tokenDto.getAccessToken());
+        token.put("refreshToken", tokenDto.getRefreshToken());
+        return token;
     }
 
     @GetMapping("/api/user")
-    public Optional<UserEntity> findUser(@RequestHeader("Authorization") String token){
-        Long id = userService.jwtParser(token);
-        UserEntity user = userRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("해당 ID는 없는 ID입니다."));
-        return Optional.ofNullable(user);
+    public GetUserDto findUser(@RequestHeader("Authorization") String token){
+        Claims parseToken = jwtTokenProvider.parseJwtToken(token);
+        Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
+        return new GetUserDto(user);
     }
 }

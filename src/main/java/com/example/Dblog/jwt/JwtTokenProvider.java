@@ -1,16 +1,12 @@
 package com.example.Dblog.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -102,5 +98,17 @@ public class JwtTokenProvider {
                 .compact();
 
         return accessToken;
+    }
+
+    public Claims parseJwtToken(String token){
+        try{
+            return Jwts.parser()
+                    .setSigningKey(accessSecretkey)
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch (ExpiredJwtException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
