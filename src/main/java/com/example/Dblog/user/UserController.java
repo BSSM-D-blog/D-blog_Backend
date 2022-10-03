@@ -1,5 +1,7 @@
 package com.example.Dblog.user;
 
+import com.example.Dblog.file.FileDto;
+import com.example.Dblog.file.FileService;
 import com.example.Dblog.jwt.JwtService;
 import com.example.Dblog.jwt.JwtTokenProvider;
 import com.example.Dblog.jwt.Token;
@@ -10,10 +12,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.validation.Valid;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +28,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final JwtService jwtService;
+    private final FileService fileService;
 
     @PostMapping("/signup")
     public boolean Signup(@Valid @RequestBody UserCreateForm userCreateForm, BindingResult bindingResult){
@@ -45,5 +52,13 @@ public class UserController {
         Claims parseToken = jwtTokenProvider.parseJwtToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
         return new GetUserDto(user);
+    }
+
+    @PutMapping("/api/user")
+    public void updateProfile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
+        Claims parseToken = jwtTokenProvider.parseJwtToken(token);
+        Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
+        Long fileId = fileService.saveFile(file);
+        user.ifPresent(userEntity -> userService.updateProfile(fileId, userEntity));
     }
 }
