@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,15 +16,16 @@ public class BoardController {
 
     private final BoardService boardService;
     private final FileService fileService;
+    private final BoardRepository boardRepository;
 
     @PostMapping("/api/board")
     public String save(@RequestParam("file") Optional<MultipartFile> files, BoardCreateForm params){
         try{
             if(files.isPresent()) {
                 String origFilename = files.get().getOriginalFilename();
+                assert origFilename != null;
                 String extension = origFilename.substring(origFilename.lastIndexOf("."));
                 String uuid = UUID.randomUUID().toString();
-                assert origFilename != null;
                 String savePath = System.getProperty("user.dir") + "\\files";
                 if(!new File(savePath).exists()){
                     try{
@@ -49,5 +51,10 @@ public class BoardController {
             e.printStackTrace();
         }
         return "success";
+    }
+
+    @GetMapping("/api/board")
+    public List<GetBoardDto> getBoardList(){
+        return boardService.getBoardList();
     }
 }

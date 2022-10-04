@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +34,23 @@ public class BoardService {
         board.setContent(form.getContent());
         this.boardRepository.save(board);
         return true;
+    }
+
+    @Transactional
+    public List<GetBoardDto> getBoardList(){
+        List<BoardEntity> boards = boardRepository.findAll();
+        List<GetBoardDto> getBoard = new ArrayList<>();
+
+        for(BoardEntity board : boards){
+            GetBoardDto boardDto = GetBoardDto.builder()
+                    .id(board.getId())
+                    .title(board.getTitle())
+                    .content(board.getContent())
+                    .created(board.getCreated())
+                    .user(board.getUser())
+                    .build();
+            getBoard.add(boardDto);
+        }
+        return getBoard;
     }
 }
