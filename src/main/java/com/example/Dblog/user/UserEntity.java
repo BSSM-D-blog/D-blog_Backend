@@ -56,6 +56,9 @@ public class UserEntity implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    @Column
+    private Long fileid;
+
     @Override
     public String getPassword() {
         return null;

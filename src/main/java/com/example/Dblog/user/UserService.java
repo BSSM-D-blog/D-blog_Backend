@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.Collections;
 
@@ -34,4 +36,9 @@ public class UserService {
         return true;
     }
 
+    @Transactional
+    public void updateProfile(Long id, UserEntity user){
+        user.setFileid(id);
+        userRepository.save(user);
+    }
 }
