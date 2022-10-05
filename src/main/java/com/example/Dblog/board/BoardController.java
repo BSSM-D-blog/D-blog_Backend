@@ -1,15 +1,12 @@
 package com.example.Dblog.board;
 
-import com.example.Dblog.file.FileDto;
+import com.example.Dblog.file.FileEntity;
 import com.example.Dblog.file.FileService;
 import lombok.RequiredArgsConstructor;
-import org.apache.wink.common.internal.model.admin.Resources;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.File;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +18,8 @@ public class BoardController {
     @PostMapping("/api/board")
     public void save(@RequestParam("file") Optional<MultipartFile> files, BoardCreateForm params){
         if(files.isPresent()){
-           Long fileId = fileService.saveFile(files.get());
-           boardService.cretePost(params, fileId);
+           FileEntity file = fileService.saveFile(files.get());
+           boardService.cretePost(params, file.getId());
         }else{
             boardService.cretePost(params);
         }
@@ -31,5 +28,20 @@ public class BoardController {
     @GetMapping("/api/board")
     public List<GetBoardDto> getBoardList(){
         return boardService.getBoardList();
+    }
+
+    @GetMapping("/api/board/{id}")
+    public GetBoardDto getBoard(@PathVariable Long id){
+        return boardService.getBoard(id);
+    }
+
+    @PutMapping("/api/board/{id}")
+    public void updateBoard(@PathVariable Long id, @RequestParam("file") Optional<MultipartFile> file, BoardCreateForm boardCreateForm){
+        boardService.updateBoard(id, file, boardCreateForm);
+    }
+
+    @DeleteMapping("/api/board/{id}")
+    public void deleteBoard(@PathVariable Long id){
+        boardService.deleteBoard(id);
     }
 }

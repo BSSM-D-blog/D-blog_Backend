@@ -1,6 +1,7 @@
 package com.example.Dblog.user;
 
 import com.example.Dblog.file.FileDto;
+import com.example.Dblog.file.FileEntity;
 import com.example.Dblog.file.FileService;
 import com.example.Dblog.jwt.JwtService;
 import com.example.Dblog.jwt.JwtTokenProvider;
@@ -58,8 +59,8 @@ public class UserController {
     public void updateProfile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
         Claims parseToken = jwtTokenProvider.parseJwtToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
-        Long fileId = fileService.saveFile(file);
-        user.ifPresent(userEntity -> userService.updateProfile(fileId, userEntity));
+        FileEntity saveFile = fileService.saveFile(file);
+        user.ifPresent(userEntity -> userService.updateProfile(saveFile.getServerPath(), userEntity));
     }
 }
 

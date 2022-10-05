@@ -12,13 +12,15 @@ public class GetBoardDto {
     private String content;
     private LocalDateTime created;
     private String user;
+    private String filePath;
 
     @Builder
-    public GetBoardDto(Long id, String title, String content, LocalDateTime created, String user){
+    public GetBoardDto(Long id, String title, String content, LocalDateTime created, String user, String filePath){
         this.id = id;
         this.title = title;
         this.content = content;
         this.created = created;
         this.user = user;
+        this.filePath = filePath;
     }
 }
