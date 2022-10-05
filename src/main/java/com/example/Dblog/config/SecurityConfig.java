@@ -1,4 +1,4 @@
-package com.example.Dblog;
+package com.example.Dblog.config;
 
 import com.example.Dblog.jwt.JwtAuthenticationFilter;
 import com.example.Dblog.jwt.JwtTokenProvider;
