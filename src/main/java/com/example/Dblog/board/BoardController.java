@@ -7,8 +7,7 @@ import org.apache.wink.common.internal.model.admin.Resources;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
-import java.net.URL;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +17,7 @@ public class BoardController {
 
     private final BoardService boardService;
     private final FileService fileService;
+    
     @PostMapping("/api/board")
     public void save(@RequestParam("file") Optional<MultipartFile> files, BoardCreateForm params){
         if(files.isPresent()){
@@ -26,5 +26,10 @@ public class BoardController {
         }else{
             boardService.cretePost(params);
         }
+    }
+
+    @GetMapping("/api/board")
+    public List<GetBoardDto> getBoardList(){
+        return boardService.getBoardList();
     }
 }
