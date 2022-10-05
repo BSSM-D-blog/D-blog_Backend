@@ -13,13 +13,12 @@ public class FileDto {
     private String filepath;
 
     public FileEntity toEntity(){
-        FileEntity build = FileEntity.builder()
+        return FileEntity.builder()
                 .id(id)
                 .originalname(originalname)
                 .filename(filename)
                 .filepath(filepath)
                 .build();
-        return build;
     }
 
     @Builder

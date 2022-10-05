@@ -90,14 +90,12 @@ public class JwtTokenProvider {
         claims.put("roles", roles);
         Date now = new Date();
 
-        String accessToken = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(new Date(now.getTime() + accessTokenValidTime))
                 .signWith(SignatureAlgorithm.HS256, accessSecretkey)
                 .compact();
-
-        return accessToken;
     }
 
     public Claims parseJwtToken(String token){
