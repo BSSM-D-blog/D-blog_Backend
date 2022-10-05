@@ -1,15 +1,9 @@
 package com.example.Dblog.user;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Getter
-@Setter
-@NoArgsConstructor
+
 public class GetUserDto {
     private Long id;
     private String nickname;
