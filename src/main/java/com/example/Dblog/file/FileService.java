@@ -19,8 +19,8 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class FileService {
-    private FileRepository fileRepository;
-    private String savePath = System.getProperty("user.dir") + "\\src\\main\\resources\\images";
+    private final FileRepository fileRepository;
+    private final String savePath = System.getProperty("user.dir") + "\\src\\main\\resources\\images";
 
     @Autowired
     ServletContext servletContext;
@@ -43,6 +43,13 @@ public class FileService {
     @Transactional
     public FileEntity saveFile(MultipartFile file) {
         try {
+            if(!new File(savePath).exists()){
+                try{
+                    new File(savePath).mkdir();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             String originFileName = file.getOriginalFilename();
             assert originFileName != null;
             String extension = originFileName.substring(originFileName.lastIndexOf("."));
@@ -69,6 +76,13 @@ public class FileService {
     public void updateFile(FileEntity entity, Optional<MultipartFile> file) {
         try {
             if(file.isPresent()){
+                if(!new File(savePath).exists()){
+                    try{
+                        new File(savePath).mkdir();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 String originFileName = file.get().getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
                 assert originFileName != null;

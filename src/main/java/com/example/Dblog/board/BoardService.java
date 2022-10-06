@@ -31,6 +31,7 @@ public class BoardService {
         board.setTitle(form.getTitle());
         board.setContent(form.getContent());
         board.setFileid(fileId);
+
         this.boardRepository.save(board);
     }
     @Transactional

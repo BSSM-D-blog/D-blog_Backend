@@ -16,17 +16,6 @@ public class DblogApplication {
 		SpringApplication.run(DblogApplication.class, args);
 	}
 
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:3000");
-			}
-		};
-	}
-
 	@Bean
 	public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
 		return new HiddenHttpMethodFilter();
