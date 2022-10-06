@@ -16,4 +16,5 @@ public class BoardCreateForm {
 
     @NotEmpty(message = "글 내용은 필수항목입니다.")
     private String content;
+    private Long category;
 }

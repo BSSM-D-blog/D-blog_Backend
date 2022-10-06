@@ -45,4 +45,7 @@ public class BoardEntity {
 
     @Column
     private Long fileid;
+
+    @Column
+    private Long category;
 }
