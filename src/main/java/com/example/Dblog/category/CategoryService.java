@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -52,5 +53,10 @@ public class CategoryService {
             categoryDtoList.add(categoryDto);
         }
         return categoryDtoList;
+    }
+
+    public boolean validCategory(Long id){
+        Optional<CategoryEntity> category = categoryRepository.findById(id);
+        return category.isPresent();
     }
 }
