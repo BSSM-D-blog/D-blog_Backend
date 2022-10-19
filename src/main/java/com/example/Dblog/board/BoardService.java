@@ -1,5 +1,6 @@
 package com.example.Dblog.board;
 
+import com.example.Dblog.category.CategoryService;
 import com.example.Dblog.file.FileEntity;
 import com.example.Dblog.file.FileRepository;
 import com.example.Dblog.file.FileService;
@@ -23,6 +24,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final FileRepository fileRepository;
     private final FileService fileService;
+    private final CategoryService categoryService;
 
     @Transactional
     public void cretePost(BoardCreateForm form, Long fileId){
@@ -31,7 +33,7 @@ public class BoardService {
         board.setTitle(form.getTitle());
         board.setContent(form.getContent());
         board.setFileid(fileId);
-
+        board.setCategory(form.getCategory());
         this.boardRepository.save(board);
     }
     @Transactional
@@ -40,6 +42,7 @@ public class BoardService {
         board.setUser(form.getUser());
         board.setTitle(form.getTitle());
         board.setContent(form.getContent());
+        board.setCategory(form.getCategory());
         this.boardRepository.save(board);
     }
 
