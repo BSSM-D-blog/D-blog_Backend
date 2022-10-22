@@ -1,13 +1,11 @@
 package com.example.Dblog.category;
 
 import com.example.Dblog.jwt.JwtService;
-import com.example.Dblog.jwt.JwtTokenProvider;
 import com.example.Dblog.user.UserEntity;
-import com.example.Dblog.user.UserRepository;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -31,5 +29,15 @@ public class CategoryController {
     @DeleteMapping("/api/category/{id}")
     public void deleteCategory(@PathVariable Long id){
         categoryService.deleteCategory(id );
+    }
+
+    @GetMapping("/api/category")
+    public List<CategoryDto> getCategory(@RequestHeader("Authorization") String token){
+        Optional<UserEntity> user = jwtService.getUserInfo(token);
+        List<CategoryDto> category = null;
+        if(user.isPresent()) {
+             category = categoryService.getCategory(user.get().getId());
+        }
+        return category;
     }
 }

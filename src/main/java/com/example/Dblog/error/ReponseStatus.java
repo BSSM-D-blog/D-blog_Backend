@@ -1,6 +1,6 @@
 package com.example.Dblog.error;
 
-public enum ErrorStatus {
+public enum ReponseStatus {
 
     OK(200, "OK"),
     BAD_REQUEST(400, "OK"),
@@ -11,7 +11,7 @@ public enum ErrorStatus {
 
     int statusCode;
     String message;
-    ErrorStatus(int statusCode, String message){
+    ReponseStatus(int statusCode, String message){
         this.statusCode = statusCode;
         this.message = message;
     }

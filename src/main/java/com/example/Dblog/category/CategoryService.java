@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -40,8 +41,8 @@ public class CategoryService {
     }
 
     @Transactional
-    public List<CategoryDto> getCategoryList(){
-        List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
+    public List<CategoryDto> getCategory(Long user){
+        List<CategoryEntity> categoryEntityList = categoryRepository.findByUser(user);
         List<CategoryDto> categoryDtoList = new ArrayList<>();
 
         for(CategoryEntity category : categoryEntityList){
