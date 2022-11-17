@@ -1,9 +1,13 @@
 package com.example.Dblog.board;
 
+import com.example.Dblog.category.CategoryEntity;
+import com.example.Dblog.category.CategoryRepository;
 import com.example.Dblog.category.CategoryService;
 import com.example.Dblog.file.FileEntity;
 import com.example.Dblog.file.FileRepository;
 import com.example.Dblog.file.FileService;
+import com.example.Dblog.user.UserEntity;
+import com.example.Dblog.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.stereotype.Service;
@@ -24,7 +28,8 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final FileRepository fileRepository;
     private final FileService fileService;
-    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public void cretePost(BoardCreateForm form, Long fileId){
@@ -53,9 +58,12 @@ public class BoardService {
 
         for(BoardEntity board : boards){
             Optional<FileEntity> file = Optional.empty();
+            Optional<CategoryEntity> category = Optional.empty();
             if(board.getFileid() != null) file = fileRepository.findById(board.getFileid());
-            GetBoardDto boardDto;
-            if(Objects.requireNonNull(file).isPresent()){
+            if(board.getCategory() != null) category = categoryRepository.findByCategory(board.getCategory());
+            Optional<UserEntity> user = userRepository.findByUsername(board.getUser());
+            GetBoardDto boardDto = null;
+            if(file.isPresent() && category.isPresent() && user.isPresent()){
                 boardDto = GetBoardDto.builder()
                         .id(board.getId())
                         .title(board.getTitle())
@@ -63,8 +71,10 @@ public class BoardService {
                         .created(board.getCreated())
                         .user(board.getUser())
                         .filePath(file.get().getServerPath())
+                        .category(category.get().getName())
+                        .profile(user.get().getProfile())
                         .build();
-            }else{
+            }else if(user.isPresent()){
                 boardDto = GetBoardDto.builder()
                         .id(board.getId())
                         .title(board.getTitle())
@@ -72,6 +82,8 @@ public class BoardService {
                         .created(board.getCreated())
                         .user(board.getUser())
                         .filePath("")
+                        .category("전체")
+                        .profile(user.get().getProfile())
                         .build();
             }
             getBoard.add(boardDto);
@@ -81,14 +93,16 @@ public class BoardService {
 
     @Transactional
     public GetBoardDto getBoard(Long boardId){
-        Optional<BoardEntity> board = Optional.ofNullable(boardRepository.findById(boardId)
-                .orElseThrow(() -> new IllegalArgumentException("찾는 게시물이 없습니다.")));
+        Optional<BoardEntity> board = boardRepository.findById(boardId);
         Optional<FileEntity> file = Optional.empty();
+        Optional<UserEntity> user = Optional.empty();
+        Optional<CategoryEntity> category = Optional.empty();
         GetBoardDto boardDto = null;
         if(board.isPresent()){
-            if(board.get().getFileid() != null) file = Optional.ofNullable(fileRepository.findById(board.get().getFileid())
-                    .orElseThrow(() -> new IllegalArgumentException("찾는 파일이 없습니다.")));
-            if(file.isPresent()){
+            if(board.get().getFileid() != null) file = fileRepository.findById(board.get().getFileid());
+            if (board.get().getUser() != null) user = userRepository.findByUsername(board.get().getUser());
+            if(board.get().getCategory() != null) category = categoryRepository.findByCategory(board.get().getCategory());
+            if(file.isPresent() && category.isPresent() && user.isPresent()){
                 boardDto = GetBoardDto.builder()
                         .id(board.get().getId())
                         .title(board.get().getTitle())
@@ -96,6 +110,8 @@ public class BoardService {
                         .created(board.get().getCreated())
                         .user(board.get().getUser())
                         .filePath(file.get().getServerPath())
+                        .category(category.get().getName())
+                        .profile(user.get().getProfile())
                         .build();
             }
         }

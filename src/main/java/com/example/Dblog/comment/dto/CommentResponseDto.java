@@ -1,5 +1,6 @@
-package com.example.Dblog.comment;
+package com.example.Dblog.comment.dto;
 
+import com.example.Dblog.comment.CommentEntity;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

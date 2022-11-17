@@ -60,7 +60,7 @@ public class UserController {
         Claims parseToken = jwtTokenProvider.parseJwtToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
         FileEntity saveFile = fileService.saveFile(file);
-        user.ifPresent(userEntity -> userService.updateProfile(saveFile.getId(), userEntity));
+        user.ifPresent(userEntity -> userService.updateProfile(saveFile.getServerPath() , userEntity));
     }
 }
 

@@ -57,7 +57,7 @@ public class UserEntity implements UserDetails {
     }
 
     @Column
-    private Long profile;
+    private String profile;
 
     @Override
     public String getPassword() {

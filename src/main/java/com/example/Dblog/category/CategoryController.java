@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -37,6 +38,16 @@ public class CategoryController {
         List<CategoryDto> category = null;
         if(user.isPresent()) {
              category = categoryService.getCategory(user.get().getId());
+        }
+        return category;
+    }
+
+    @GetMapping("/api/category/{name}")
+    public List<CategoryDto> getOneOfCategories(@RequestHeader("Authorization") String token, @PathVariable String name){
+        Optional<UserEntity> user = jwtService.getUserInfo(token);
+        List<CategoryDto> category = null;
+        if(user.isPresent()){
+            category = categoryService.getOneOfCategories(user.get().getId(), name);
         }
         return category;
     }

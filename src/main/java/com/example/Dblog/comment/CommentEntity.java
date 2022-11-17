@@ -32,6 +32,7 @@ public class CommentEntity {
 
     @Column
     @LastModifiedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd/HH:mm:ss")
     private LocalDateTime modified;
 
     @Column
@@ -44,10 +45,10 @@ public class CommentEntity {
     private Long parents;
 
     @Column
-    private boolean delete;
+    private int deleted;
 
     @Builder
-    public CommentEntity(Long id, String content, LocalDateTime created, LocalDateTime modified, Long user, Long board, Long parents, boolean delete) {
+    public CommentEntity(Long id, String content, LocalDateTime created, LocalDateTime modified, Long user, Long board, Long parents, int deleted) {
         this.id = id;
         this.content = content;
         this.created = created;
@@ -55,6 +56,6 @@ public class CommentEntity {
         this.user = user;
         this.board = board;
         this.parents = parents;
-        this.delete = delete;
+        this.deleted = deleted;
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -44,7 +43,24 @@ public class CategoryService {
     public List<CategoryDto> getCategory(Long user){
         List<CategoryEntity> categoryEntityList = categoryRepository.findByUser(user);
         List<CategoryDto> categoryDtoList = new ArrayList<>();
+        setCategoryList(categoryEntityList, categoryDtoList);
+        return categoryDtoList;
+    }
 
+    @Transactional
+    public List<CategoryDto> getOneOfCategories(Long user, String name){
+        List<CategoryEntity> categoryEntityList = categoryRepository.findByUserAndName(user, name);
+        List<CategoryDto> categoryDtoList = new ArrayList<>();
+        setCategoryList(categoryEntityList, categoryDtoList);
+        return categoryDtoList;
+    }
+
+    public boolean validCategory(Long id){
+        Optional<CategoryEntity> category = categoryRepository.findByCategory(id);
+        return category.isPresent();
+    }
+
+    public void setCategoryList(List<CategoryEntity> categoryEntityList, List<CategoryDto> categoryDtoList){
         for(CategoryEntity category : categoryEntityList){
             CategoryDto categoryDto = CategoryDto.builder()
                     .category(category.getCategory())
@@ -53,11 +69,5 @@ public class CategoryService {
                     .build();
             categoryDtoList.add(categoryDto);
         }
-        return categoryDtoList;
-    }
-
-    public boolean validCategory(Long id){
-        Optional<CategoryEntity> category = categoryRepository.findById(id);
-        return category.isPresent();
     }
 }

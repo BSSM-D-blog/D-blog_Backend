@@ -1,5 +1,6 @@
-package com.example.Dblog.comment;
+package com.example.Dblog.comment.dto;
 
+import com.example.Dblog.comment.CommentEntity;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -8,8 +9,6 @@ import java.time.LocalDateTime;
 public class CommentRequestDto {
     private Long id;
     private String content;
-    private LocalDateTime created;
-    private LocalDateTime modified;
     private Long user;
     private Long board;
     private Long parents;
@@ -18,12 +17,12 @@ public class CommentRequestDto {
         return CommentEntity.builder()
                 .id(id)
                 .content(content)
-                .created(created)
-                .modified(modified)
+                .created(null)
+                .modified(null)
                 .user(user)
                 .board(board)
                 .parents(parents)
-                .delete(false)
+                .deleted(0)
                 .build();
     }
 }

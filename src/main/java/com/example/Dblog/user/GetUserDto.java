@@ -11,7 +11,7 @@ public class GetUserDto {
     private String nickname;
     private LocalDateTime created;
     private Role role;
-    private Long profile;
+    private String profile;
 
     @Builder
     public GetUserDto(Optional<UserEntity> user){

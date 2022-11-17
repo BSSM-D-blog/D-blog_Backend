@@ -1,5 +1,7 @@
 package com.example.Dblog.comment;
 
+import com.example.Dblog.comment.dto.CommentRequestDto;
+import com.example.Dblog.comment.dto.CommentResponseDto;
 import com.example.Dblog.error.ReponseStatus;
 import com.example.Dblog.error.ResponseMessage;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +18,7 @@ public class CommentController {
 
     private final CommentService commentService;
 
-    @PostMapping("/api/comment/")
+    @PostMapping("/api/comment")
     public ResponseEntity<ResponseMessage> createComment(@RequestBody CommentRequestDto requestDto){
         ResponseMessage message = new ResponseMessage();
         HttpHeaders headers= new HttpHeaders();

@@ -37,8 +37,8 @@ public class UserService {
     }
 
     @Transactional
-    public void updateProfile(Long id, UserEntity user){
-        user.setProfile(id);
+    public void updateProfile(String path, UserEntity user){
+        user.setProfile(path);
         userRepository.save(user);
     }
 

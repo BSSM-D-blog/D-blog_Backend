@@ -32,7 +32,7 @@ public class BoardController {
         headers.setContentType(new MediaType("application", "json", StandardCharsets.UTF_8));
         if(params.getCategory() != null && !categoryService.validCategory(params.getCategory())){
             message.setStatus(ReponseStatus.BAD_REQUEST);
-            message.setMessage("잘못된 요청입니다.");
+            message.setMessage("카테고리가 존재하지 않습니다.");
             message.setData(null);
             return new ResponseEntity<>(message, headers, HttpStatus.BAD_REQUEST);
         }
