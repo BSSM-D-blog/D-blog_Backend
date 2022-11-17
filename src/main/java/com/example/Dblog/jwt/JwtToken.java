@@ -9,20 +9,22 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Getter
-@Table(name = "T_REFRESH_TOKEN")
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshToken {
+public class JwtToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "REFRESH_TOKEN_ID", nullable = false)
-    private Long refreshTokenId;
+    @Column(nullable = false)
+    private Long tokenId;
 
-    @Column(name = "REFRESH_TOKEN", nullable = false)
+    @Column(nullable = false)
     private String refreshToken;
 
-    @Column(name = "KEY_USERNAME", nullable = false)
+    @Column(nullable = false)
+    private String accessToken;
+
+    @Column(nullable = false)
     private String keyUsername;
 
 }

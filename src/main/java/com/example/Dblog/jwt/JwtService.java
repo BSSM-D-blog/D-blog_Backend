@@ -19,7 +19,7 @@ public class JwtService {
 
     @Transactional
     public void login(Token tokenDto){
-        RefreshToken refreshToken = RefreshToken.builder()
+        JwtToken refreshToken = JwtToken.builder()
                 .keyUsername(tokenDto.getKey())
                 .refreshToken(tokenDto.getRefreshToken())
                 .build();
@@ -30,12 +30,12 @@ public class JwtService {
         refreshTokenRepository.save(refreshToken);
     }
 
-    public Optional<RefreshToken> getRefreshToken(String refreshToken){
+    public Optional<JwtToken> getRefreshToken(String refreshToken){
         return refreshTokenRepository.findByRefreshToken(refreshToken);
     }
 
     public Map<String, String> validateRefreshToken(String refreshToken){
-        RefreshToken refreshToken1 = getRefreshToken(refreshToken).get();
+        JwtToken refreshToken1 = getRefreshToken(refreshToken).get();
         String createdAccessToken = jwtTokenProvider.validateRefreshToken(refreshToken1);
 
         return createRefreshJson(createdAccessToken);

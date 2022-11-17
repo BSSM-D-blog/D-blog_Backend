@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
@@ -22,6 +23,7 @@ public class JwtTokenProvider {
     private Long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 14;
 
     private final UserDetailsService userDetailsService;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @PostConstruct
     protected void init() {
@@ -72,11 +74,12 @@ public class JwtTokenProvider {
         }
     }
 
-    public String validateRefreshToken(RefreshToken refreshTokenObj){
+    public String validateRefreshToken(JwtToken refreshTokenObj){
         String refreshToken = refreshTokenObj.getRefreshToken();
         try {
+            Optional<JwtToken> refresh = refreshTokenRepository.findByRefreshToken(refreshToken);
             Jws<Claims> claims = Jwts.parser().setSigningKey(refreshSecretKey).parseClaimsJws(refreshToken);
-            if (!claims.getBody().getExpiration().before(new Date())) {
+            if (refresh.isPresent() && !claims.getBody().getExpiration().before(new Date())) {
                 return recreationAccessToken(claims.getBody().get("sub").toString(), claims.getBody().get("roles"));
             }
         }catch (Exception e) {
