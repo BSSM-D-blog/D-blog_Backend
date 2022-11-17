@@ -1,5 +1,6 @@
-package com.example.Dblog.user;
+package com.example.Dblog.auth;
 
+import com.example.Dblog.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

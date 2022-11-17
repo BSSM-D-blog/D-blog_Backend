@@ -17,14 +17,14 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/api/category")
-    public void createCategory(@RequestBody String name, @RequestHeader("Authorization") String token){
+    public void createCategory(@RequestBody Map<String, String> name, @RequestHeader("Authorization") String token){
         Optional<UserEntity> user = jwtService.getUserInfo(token);
-        user.ifPresent(userEntity -> categoryService.createCategory(name, userEntity.getId()));
+        user.ifPresent(userEntity -> categoryService.createCategory(name.get("name"), userEntity.getId()));
     }
 
     @PutMapping("/api/category/{id}")
-    public void updateCategory(@RequestBody String name, @PathVariable Long id){
-        categoryService.updateCategory(name, id);
+    public void updateCategory(@RequestBody Map<String, String> name, @PathVariable Long id){
+        categoryService.updateCategory(name.get("name"), id);
     }
 
     @DeleteMapping("/api/category/{id}")

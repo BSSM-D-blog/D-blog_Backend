@@ -2,8 +2,10 @@ package com.example.Dblog.category;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Getter
 public class CategoryDto {
     private Long category;
     private String name;

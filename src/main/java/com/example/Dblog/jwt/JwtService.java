@@ -14,24 +14,25 @@ import java.util.*;
 public class JwtService {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtTokenRepository jwtTokenRepository;
     private final UserRepository userRepository;
 
     @Transactional
     public void login(Token tokenDto){
-        JwtToken refreshToken = JwtToken.builder()
+        JwtToken token = JwtToken.builder()
                 .keyUsername(tokenDto.getKey())
+                .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
                 .build();
-        String loginUsername = refreshToken.getKeyUsername();
-        if(refreshTokenRepository.existsByKeyUsername(loginUsername)){
-            refreshTokenRepository.deleteByKeyUsername(loginUsername);
+        String loginUsername = token.getKeyUsername();
+        if(jwtTokenRepository.existsByKeyUsername(loginUsername)){
+            jwtTokenRepository.deleteByKeyUsername(loginUsername);
         }
-        refreshTokenRepository.save(refreshToken);
+        jwtTokenRepository.save(token);
     }
 
     public Optional<JwtToken> getRefreshToken(String refreshToken){
-        return refreshTokenRepository.findByRefreshToken(refreshToken);
+        return jwtTokenRepository.findByRefreshToken(refreshToken);
     }
 
     public Map<String, String> validateRefreshToken(String refreshToken){

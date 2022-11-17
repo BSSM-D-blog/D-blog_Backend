@@ -2,7 +2,7 @@ package com.example.Dblog.config;
 
 import com.example.Dblog.jwt.JwtAuthenticationFilter;
 import com.example.Dblog.jwt.JwtTokenProvider;
-import com.example.Dblog.user.CustomUserDetailsService;
+import com.example.Dblog.auth.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

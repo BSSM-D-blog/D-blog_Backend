@@ -22,9 +22,7 @@ public class UserController {
 
     @GetMapping("/api/user")
     public GetUserDto findUser(@RequestHeader("Authorization") String token){
-        Claims parseToken = jwtTokenProvider.parseJwtToken(token);
-        Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
-        return new GetUserDto(user);
+        return userService.findUser(token);
     }
 
     @PutMapping("/api/user")

@@ -18,12 +18,12 @@ import java.util.Optional;
 @Component
 public class JwtTokenProvider {
     private String accessSecretkey = "dblogaccesssecretkey";
-    private String refreshSecretKey = "dblogrefreshsecretkey";
-    private Long accessTokenValidTime = 30 * 60 * 1000L;
+    private final String refreshSecretKey = "dblogrefreshsecretkey";
+    private final Long accessTokenValidTime = 30 * 60 * 1000L;
     private Long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 14;
 
     private final UserDetailsService userDetailsService;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final JwtTokenRepository refreshTokenRepository;
 
     @PostConstruct
     protected void init() {
