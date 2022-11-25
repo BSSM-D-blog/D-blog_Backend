@@ -1,7 +1,11 @@
-package com.example.Dblog.domain.user;
+package com.example.Dblog.domain.user.controller;
 
-import com.example.Dblog.domain.file.FileEntity;
-import com.example.Dblog.domain.file.FileService;
+import com.example.Dblog.domain.file.entity.FileEntity;
+import com.example.Dblog.domain.file.service.FileService;
+import com.example.Dblog.domain.user.service.UserService;
+import com.example.Dblog.domain.user.dto.UserResponseDto;
+import com.example.Dblog.domain.user.entity.UserEntity;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import com.example.Dblog.global.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +26,7 @@ public class UserController {
     private final FileService fileService;
 
     @GetMapping("/user")
-    public GetUserDto findUser(@CookieValue("accessToken") String token){
+    public UserResponseDto findUser(@CookieValue("accessToken") String token){
         log.info("accessToken: " + token);
         return userService.findUser(token);
     }

@@ -1,5 +1,8 @@
-package com.example.Dblog.domain.user;
+package com.example.Dblog.domain.user.service;
 
+import com.example.Dblog.domain.user.dto.UserResponseDto;
+import com.example.Dblog.domain.user.entity.UserEntity;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import com.example.Dblog.global.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +24,10 @@ public class UserService {
     }
 
     @Transactional
-    public GetUserDto findUser(String token){
+    public UserResponseDto findUser(String token){
         Claims parseToken = jwtTokenProvider.parseJwtToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
-        return new GetUserDto(user);
+        return new UserResponseDto(user);
     }
 
 }

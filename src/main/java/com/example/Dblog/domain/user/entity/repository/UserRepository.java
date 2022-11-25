@@ -1,5 +1,6 @@
-package com.example.Dblog.domain.user;
+package com.example.Dblog.domain.user.entity.repository;
 
+import com.example.Dblog.domain.user.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

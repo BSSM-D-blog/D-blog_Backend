@@ -1,13 +1,13 @@
-package com.example.Dblog.domain.board;
+package com.example.Dblog.domain.board.controller;
 
 import com.example.Dblog.domain.board.dto.BoardRequestDto;
 import com.example.Dblog.domain.board.dto.BoardResponseDto;
 import com.example.Dblog.domain.board.service.BoardService;
-import com.example.Dblog.domain.category.CategoryService;
+import com.example.Dblog.domain.category.service.CategoryService;
 import com.example.Dblog.global.error.ResponseMessage;
 import com.example.Dblog.global.error.ReponseStatus;
-import com.example.Dblog.domain.file.FileEntity;
-import com.example.Dblog.domain.file.FileService;
+import com.example.Dblog.domain.file.entity.FileEntity;
+import com.example.Dblog.domain.file.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

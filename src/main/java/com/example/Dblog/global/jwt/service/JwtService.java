@@ -1,7 +1,7 @@
 package com.example.Dblog.global.jwt.service;
 
-import com.example.Dblog.domain.user.UserEntity;
-import com.example.Dblog.domain.user.UserRepository;
+import com.example.Dblog.domain.user.entity.UserEntity;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import com.example.Dblog.global.jwt.JwtTokenProvider;
 import com.example.Dblog.global.jwt.entity.repository.JwtTokenRepository;
 import com.example.Dblog.global.jwt.entity.JwtToken;

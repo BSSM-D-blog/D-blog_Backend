@@ -1,7 +1,8 @@
-package com.example.Dblog.domain.comment;
+package com.example.Dblog.domain.comment.controller;
 
 import com.example.Dblog.domain.comment.dto.CommentRequestDto;
 import com.example.Dblog.domain.comment.dto.CommentResponseDto;
+import com.example.Dblog.domain.comment.service.CommentService;
 import com.example.Dblog.global.error.ReponseStatus;
 import com.example.Dblog.global.error.ResponseMessage;
 import lombok.RequiredArgsConstructor;

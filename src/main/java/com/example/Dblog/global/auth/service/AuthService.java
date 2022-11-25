@@ -1,10 +1,10 @@
 package com.example.Dblog.global.auth.service;
 
 import com.example.Dblog.global.jwt.*;
-import com.example.Dblog.domain.user.Role;
-import com.example.Dblog.domain.user.UserCreateForm;
-import com.example.Dblog.domain.user.UserEntity;
-import com.example.Dblog.domain.user.UserRepository;
+import com.example.Dblog.domain.user.entity.Role;
+import com.example.Dblog.domain.user.dto.UserRequestDto;
+import com.example.Dblog.domain.user.entity.UserEntity;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import com.example.Dblog.global.jwt.entity.JwtToken;
 import com.example.Dblog.global.jwt.dto.Token;
 import com.example.Dblog.global.jwt.entity.repository.JwtTokenRepository;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class AuthService {
     private final JwtService jwtService;
 
     @Transactional
-    public boolean create(UserCreateForm userCreateForm, BindingResult bindingResult) {
+    public boolean create(UserRequestDto userCreateForm, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return false;
         }

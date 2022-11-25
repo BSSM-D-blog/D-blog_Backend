@@ -1,7 +1,9 @@
-package com.example.Dblog.domain.category;
+package com.example.Dblog.domain.category.controller;
 
+import com.example.Dblog.domain.category.dto.CategoryDto;
+import com.example.Dblog.domain.category.service.CategoryService;
 import com.example.Dblog.global.jwt.service.JwtService;
-import com.example.Dblog.domain.user.UserEntity;
+import com.example.Dblog.domain.user.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

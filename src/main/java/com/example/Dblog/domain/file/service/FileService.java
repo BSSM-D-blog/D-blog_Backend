@@ -1,5 +1,8 @@
-package com.example.Dblog.domain.file;
+package com.example.Dblog.domain.file.service;
 
+import com.example.Dblog.domain.file.dto.FileDto;
+import com.example.Dblog.domain.file.entity.FileEntity;
+import com.example.Dblog.domain.file.entity.repository.FileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

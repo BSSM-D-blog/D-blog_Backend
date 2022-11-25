@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.comment;
+package com.example.Dblog.domain.comment.entity;
 
 import lombok.Builder;
 import lombok.Getter;

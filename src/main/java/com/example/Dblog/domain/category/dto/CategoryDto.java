@@ -1,5 +1,6 @@
-package com.example.Dblog.domain.category;
+package com.example.Dblog.domain.category.dto;
 
+import com.example.Dblog.domain.category.entity.CategoryEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;

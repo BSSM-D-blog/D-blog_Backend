@@ -1,5 +1,6 @@
-package com.example.Dblog.domain.category;
+package com.example.Dblog.domain.category.entity.repository;
 
+import com.example.Dblog.domain.category.entity.CategoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

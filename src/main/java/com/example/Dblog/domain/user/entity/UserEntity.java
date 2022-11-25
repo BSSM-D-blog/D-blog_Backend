@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.user;
+package com.example.Dblog.domain.user.entity;
 
 import lombok.Builder;
 import lombok.Getter;

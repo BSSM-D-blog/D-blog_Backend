@@ -1,9 +1,11 @@
-package com.example.Dblog.domain.comment;
+package com.example.Dblog.domain.comment.service;
 
 import com.example.Dblog.domain.comment.dto.CommentRequestDto;
 import com.example.Dblog.domain.comment.dto.CommentResponseDto;
-import com.example.Dblog.domain.user.UserEntity;
-import com.example.Dblog.domain.user.UserRepository;
+import com.example.Dblog.domain.comment.entity.CommentEntity;
+import com.example.Dblog.domain.comment.entity.repository.CommentRepository;
+import com.example.Dblog.domain.user.entity.UserEntity;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

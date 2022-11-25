@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.category;
+package com.example.Dblog.domain.category.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

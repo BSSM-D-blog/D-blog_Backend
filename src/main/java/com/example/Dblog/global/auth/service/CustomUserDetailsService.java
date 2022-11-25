@@ -1,6 +1,6 @@
 package com.example.Dblog.global.auth.service;
 
-import com.example.Dblog.domain.user.UserRepository;
+import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.user;
+package com.example.Dblog.domain.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class UserCreateForm {
+public class UserRequestDto {
     @Size(min = 6, max = 25)
     @NotEmpty(message = "사용자 ID는 필수항목입니다.")
     private String username;

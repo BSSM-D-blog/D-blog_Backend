@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.file;
+package com.example.Dblog.domain.file.entity;
 
 import lombok.Builder;
 import lombok.Getter;

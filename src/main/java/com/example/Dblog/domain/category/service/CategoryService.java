@@ -1,5 +1,8 @@
-package com.example.Dblog.domain.category;
+package com.example.Dblog.domain.category.service;
 
+import com.example.Dblog.domain.category.dto.CategoryDto;
+import com.example.Dblog.domain.category.entity.CategoryEntity;
+import com.example.Dblog.domain.category.entity.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

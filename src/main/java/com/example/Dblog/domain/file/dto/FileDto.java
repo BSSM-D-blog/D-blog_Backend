@@ -1,5 +1,6 @@
-package com.example.Dblog.domain.file;
+package com.example.Dblog.domain.file.dto;
 
+import com.example.Dblog.domain.file.entity.FileEntity;
 import lombok.*;
 
 @Getter

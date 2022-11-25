@@ -1,6 +1,6 @@
 package com.example.Dblog.domain.comment.dto;
 
-import com.example.Dblog.domain.comment.CommentEntity;
+import com.example.Dblog.domain.comment.entity.CommentEntity;
 import lombok.Getter;
 
 @Getter
