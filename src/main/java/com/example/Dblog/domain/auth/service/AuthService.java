@@ -1,4 +1,4 @@
-package com.example.Dblog.global.auth.service;
+package com.example.Dblog.domain.auth.service;
 
 import com.example.Dblog.global.jwt.*;
 import com.example.Dblog.domain.user.entity.Role;
@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -51,23 +50,20 @@ public class AuthService {
     }
 
     @Transactional
-    public void logout(String token){
+    public void logout(String token) {
         Optional<JwtToken> jwt = jwtTokenRepository.findByAccessToken(token);
-        if(jwt.isPresent()){
+        if (jwt.isPresent()) {
             jwt.get().setAccessToken(null);
             jwt.get().setRefreshToken(null);
         }
     }
 
     @Transactional
-    public Map<String, String> login(Map<String, String> user){
+    public Token login(Map<String, String> user) {
         UserEntity member = userRepository.findByUsername(user.get("username")).
-                orElseThrow(()-> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+                orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
         Token tokenDto = jwtTokenProvider.createAccessToken(member.getUsername(), member.getRoles());
         jwtService.login(tokenDto);
-        Map<String, String> token = new HashMap<>();
-        token.put("accessToken", tokenDto.getAccessToken());
-        token.put("refreshToken", tokenDto.getRefreshToken());
-        return token;
+        return tokenDto;
     }
 }

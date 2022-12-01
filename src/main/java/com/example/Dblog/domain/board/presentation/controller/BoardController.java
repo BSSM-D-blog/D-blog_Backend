@@ -1,7 +1,7 @@
-package com.example.Dblog.domain.board.controller;
+package com.example.Dblog.domain.board.presentation.controller;
 
-import com.example.Dblog.domain.board.dto.BoardRequestDto;
-import com.example.Dblog.domain.board.dto.BoardResponseDto;
+import com.example.Dblog.domain.board.presentation.dto.BoardRequestDto;
+import com.example.Dblog.domain.board.presentation.dto.BoardResponseDto;
 import com.example.Dblog.domain.board.service.BoardService;
 import com.example.Dblog.domain.category.service.CategoryService;
 import com.example.Dblog.global.error.ResponseMessage;
@@ -9,6 +9,8 @@ import com.example.Dblog.global.error.ReponseStatus;
 import com.example.Dblog.domain.file.entity.FileEntity;
 import com.example.Dblog.domain.file.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,8 +54,8 @@ public class BoardController {
     }
 
     @GetMapping("/api/board")
-    public List<BoardResponseDto> getBoardList(){
-        return boardService.getBoardList();
+    public List<BoardResponseDto> getBoardList(@PageableDefault(size = 5) Pageable pageable){
+        return boardService.getBoardList(pageable);
     }
 
     @GetMapping("/api/board/{id}")

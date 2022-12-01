@@ -1,4 +1,4 @@
-package com.example.Dblog.global.auth.service;
+package com.example.Dblog.domain.auth.service;
 
 import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.Dblog.global.auth.controller;
+package com.example.Dblog.domain.auth.controller;
 
 import com.example.Dblog.global.jwt.RefreshApiResponseMessage;
 import com.example.Dblog.global.jwt.service.JwtService;

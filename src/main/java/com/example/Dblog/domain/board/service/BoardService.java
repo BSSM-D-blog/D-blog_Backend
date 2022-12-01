@@ -1,7 +1,7 @@
 package com.example.Dblog.domain.board.service;
 
-import com.example.Dblog.domain.board.dto.BoardRequestDto;
-import com.example.Dblog.domain.board.dto.BoardResponseDto;
+import com.example.Dblog.domain.board.presentation.dto.BoardRequestDto;
+import com.example.Dblog.domain.board.presentation.dto.BoardResponseDto;
 import com.example.Dblog.domain.board.entity.BoardEntity;
 import com.example.Dblog.domain.board.entity.repository.BoardRepository;
 import com.example.Dblog.domain.category.entity.CategoryEntity;
@@ -13,6 +13,8 @@ import com.example.Dblog.domain.user.entity.UserEntity;
 import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.boot.model.naming.IllegalIdentifierException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -53,8 +55,8 @@ public class BoardService {
     }
 
     @Transactional
-    public List<BoardResponseDto> getBoardList(){
-        List<BoardEntity> boards = boardRepository.findAll();
+    public List<BoardResponseDto> getBoardList(Pageable pageable){
+        Page<BoardEntity> boards = boardRepository.findAll(pageable);
         List<BoardResponseDto> getBoard = new ArrayList<>();
 
         for(BoardEntity board : boards){

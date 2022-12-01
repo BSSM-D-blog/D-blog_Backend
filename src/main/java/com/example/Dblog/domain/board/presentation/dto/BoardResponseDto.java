@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.board.dto;
+package com.example.Dblog.domain.board.presentation.dto;
 
 import lombok.Builder;
 import lombok.Data;
