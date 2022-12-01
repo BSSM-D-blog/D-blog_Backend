@@ -120,6 +120,10 @@ public class BoardService {
         }
         return boardDto;
     }
+    @Transactional
+    public Long getPage(){
+        return boardRepository.findCountWithJPQL();
+    }
 
     @Transactional
     public void updateBoard(Long id, Optional<MultipartFile> file, BoardRequestDto boardCreateForm){

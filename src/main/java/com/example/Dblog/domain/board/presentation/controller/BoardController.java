@@ -63,6 +63,11 @@ public class BoardController {
         return boardService.getBoard(id);
     }
 
+    @GetMapping("/api/board/pages")
+    public Long getPages(){
+        return boardService.getPage();
+    }
+
     @PutMapping("/api/board/{id}")
     public void updateBoard(@PathVariable Long id, @RequestParam("file") Optional<MultipartFile> file, BoardRequestDto boardCreateForm){
         boardService.updateBoard(id, file, boardCreateForm);
