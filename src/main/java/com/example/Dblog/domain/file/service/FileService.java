@@ -89,7 +89,7 @@ public class FileService {
                 String fileName = uuid + extension;
                 String filePath = savePath + "\\" + fileName;
                 file.get().transferTo(new File(filePath));
-                String saveServerPath = "10.150.149.114:8080/images/" + fileName;
+                String saveServerPath = "http://10.150.149.114:8080/images/" + fileName;
                 entity.setOriginalname(originFileName);
                 entity.setFilename(fileName);
                 entity.setFilepath(filePath);

@@ -26,13 +26,13 @@ public class UserController {
     private final FileService fileService;
 
     @GetMapping("/user")
-    public UserResponseDto findUser(@CookieValue("accessToken") String token){
+    public UserResponseDto findUser(@RequestHeader("Authorization") String token){
         log.info("accessToken: " + token);
         return userService.findUser(token);
     }
 
     @PutMapping("/user")
-    public void updateProfile(@RequestParam("file") MultipartFile file, @CookieValue("accessToken") String token){
+    public void updateProfile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
         Claims parseToken = jwtTokenProvider.parseJwtToken(token);
         Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
         FileEntity saveFile = fileService.saveFile(file);
