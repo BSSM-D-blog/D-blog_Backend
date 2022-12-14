@@ -69,6 +69,16 @@ public class BoardController {
         return boardService.getPage(pageable);
     }
 
+    @GetMapping("/api/board/user/{username}/{categoryId}")
+    public List<BoardResponseDto> getBoardListWithUsernameAndCategoryId(@PathVariable String username, @PathVariable Long categoryId){
+        return boardService.getBoardListWithUsernameAndCategoryId(username, categoryId);
+    }
+
+    @GetMapping("/api/board/user/{userId}")
+    public List<BoardResponseDto> getBoardListWithUsername(@PathVariable Long userId){
+        return boardService.getBoardListWithUsername(userId);
+    }
+
     @PutMapping("/api/board/{id}")
     public void updateBoard(@PathVariable Long id, @RequestParam("file") Optional<MultipartFile> file, BoardRequestDto boardCreateForm){
         boardService.updateBoard(id, file, boardCreateForm);

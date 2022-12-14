@@ -16,9 +16,10 @@ public class BoardResponseDto {
     private String category;
     private String profile;
     private String username;
+    private Long userid;
 
     @Builder
-    public BoardResponseDto(Long id, String title, String content, LocalDateTime created, String user, String filePath, String category, String profile, String username){
+    public BoardResponseDto(Long id, String title, String content, LocalDateTime created, String user, String filePath, String category, String profile, String username, Long userid){
         this.id = id;
         this.title = title;
         this.content = content;
@@ -28,5 +29,6 @@ public class BoardResponseDto {
         this.category = category;
         this.profile = profile;
         this.username = username;
+        this.userid = userid;
     }
 }

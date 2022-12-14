@@ -59,64 +59,61 @@ public class BoardService {
     @Transactional
     public List<BoardResponseDto> getBoardList(Pageable pageable){
         Page<BoardEntity> boards = boardRepository.findAll(pageable);
-        List<BoardResponseDto> getBoard = new ArrayList<>();
         List<BoardEntity> boardList = boards.getContent();
-        getBoardList(boardList, getBoard);
-        return getBoard;
+        return getBoardList(boardList);
     }
 
-    public void getBoardList(List<BoardEntity> boardList, List<BoardResponseDto> getBoard){
+    public List<BoardResponseDto> getBoardList(List<BoardEntity> boardList){
+        List<BoardResponseDto> getBoard = new ArrayList<>();
         for(BoardEntity board : boardList){
-            Optional<FileEntity> file = Optional.empty();
-            Optional<CategoryEntity> category = Optional.empty();
-            Optional<UserEntity> user = userRepository.findByUsername(board.getUser());;
-            if(board.getFileid() != null) file = fileRepository.findById(board.getFileid());
-            if(board.getCategory() != null) category = categoryRepository.findByCategory(board.getCategory());
-
-            assert file.isPresent();
-            assert category.isPresent();
-            BoardResponseDto getBoardListDto = BoardResponseDto.builder()
-                    .id(board.getId())
-                    .profile(user.isPresent() && user.get().getProfile() != null ? user.get().getProfile() : "")
-                    .title(board.getTitle())
-                    .filePath(board.getFileid() == null ? "" : file.get().getServerPath())
-                    .category(board.getCategory() == null ? "전체" : category.get().getName())
-                    .content(board.getContent())
-                    .created(board.getCreated())
-                    .user(user.get().getNickname())
-                    .username(board.getUser())
-                    .build();
-            getBoard.add(getBoardListDto);
+            BoardResponseDto boardResponseDto = getBoard(board);
+            getBoard.add(boardResponseDto);
         }
+        return getBoard;
+    }
+    @Transactional
+    public BoardResponseDto getBoard(BoardEntity board){
+        Optional<FileEntity> file = Optional.empty();
+        Optional<CategoryEntity> category = Optional.empty();
+        if(board.getFileid() != null) file = fileRepository.findById(board.getFileid());
+        if(board.getCategory() != null) category = categoryRepository.findByCategory(board.getCategory());
+        UserEntity user = userRepository.findByUsername(board.getUser()).orElseThrow(() -> new IllegalArgumentException("사용자가 없음"));
+
+        return BoardResponseDto.builder()
+                .id(board.getId())
+                .profile(user.getProfile() != null ? user.getProfile() : "")
+                .title(board.getTitle())
+                .filePath(board.getFileid() == null ? "" : file.get().getServerPath())
+                .category(board.getCategory() == null ? "전체" : category.get().getName())
+                .content(board.getContent())
+                .created(board.getCreated())
+                .user(user.getNickname())
+                .username(board.getUser())
+                .userid(user.getId())
+                .build();
     }
 
     @Transactional
     public BoardResponseDto getBoard(Long boardId){
-        Optional<BoardEntity> board = boardRepository.findById(boardId);
-        BoardResponseDto boardDto = null;
-        if(board.isPresent()){
-            Optional<FileEntity> file = Optional.empty();
-            Optional<CategoryEntity> category = Optional.empty();
-            if(board.get().getFileid() != null) file = fileRepository.findById(board.get().getFileid());
-            if(board.get().getCategory() != null) category = categoryRepository.findByCategory(board.get().getCategory());
-            Optional<UserEntity> user = userRepository.findByUsername(board.get().getUser());
-            boardDto = BoardResponseDto.builder()
-                    .id(board.get().getId())
-                    .profile(user.get().getProfile() != null ? user.get().getProfile() : "")
-                    .title(board.get().getTitle())
-                    .filePath(board.get().getFileid() == null ? "" : file.get().getServerPath())
-                    .category(board.get().getCategory() == null ? "전체" : category.get().getName())
-                    .content(board.get().getContent())
-                    .created(board.get().getCreated())
-                    .user(user.get().getNickname())
-                    .username(board.get().getUser())
-                    .build();
-        }
-        return boardDto;
+        BoardEntity board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("해당 게시글 없음"));
+        return getBoard(board);
     }
     @Transactional
     public int getPage(Pageable pageable){
         return boardRepository.findAll(pageable).getTotalPages();
+    }
+
+    @Transactional
+    public List<BoardResponseDto> getBoardListWithUsernameAndCategoryId(String username, Long categoryId){
+        List<BoardEntity> board = boardRepository.findByUserAndCategory(username, categoryId);
+        return getBoardList(board);
+    }
+
+    @Transactional
+    public List<BoardResponseDto> getBoardListWithUsername(Long userId){
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("유저 없음"));
+        List<BoardEntity> board = boardRepository.findByUser(user.getUsername());
+        return getBoardList(board);
     }
 
     @Transactional
