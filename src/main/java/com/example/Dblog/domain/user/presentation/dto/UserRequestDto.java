@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.user.dto;
+package com.example.Dblog.domain.user.presentation.dto;
 
 import lombok.Getter;
 import lombok.Setter;

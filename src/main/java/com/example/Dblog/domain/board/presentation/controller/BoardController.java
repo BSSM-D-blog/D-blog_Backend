@@ -1,5 +1,6 @@
 package com.example.Dblog.domain.board.presentation.controller;
 
+import com.example.Dblog.domain.board.entity.BoardEntity;
 import com.example.Dblog.domain.board.presentation.dto.BoardRequestDto;
 import com.example.Dblog.domain.board.presentation.dto.BoardResponseDto;
 import com.example.Dblog.domain.board.service.BoardService;
@@ -54,7 +55,7 @@ public class BoardController {
     }
 
     @GetMapping("/api/board")
-    public List<BoardResponseDto> getBoardList(@PageableDefault(size = 5) Pageable pageable){
+    public List<BoardResponseDto> getBoardList(@PageableDefault(size = 2) Pageable pageable){
         return boardService.getBoardList(pageable);
     }
 
@@ -64,8 +65,8 @@ public class BoardController {
     }
 
     @GetMapping("/api/board/pages")
-    public Long getPages(){
-        return boardService.getPage();
+    public int getPages(@PageableDefault(size = 2) Pageable pageable){
+        return boardService.getPage(pageable);
     }
 
     @PutMapping("/api/board/{id}")
@@ -74,7 +75,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/api/board/{id}")
-    public void deleteBoard(@PathVariable Long id){
-        boardService.deleteBoard(id);
+    public void deleteBoard(@RequestHeader("Authorization") String token, @PathVariable Long id){
+        boardService.deleteBoard(token, id);
     }
 }

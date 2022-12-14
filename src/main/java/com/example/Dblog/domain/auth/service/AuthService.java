@@ -2,7 +2,7 @@ package com.example.Dblog.domain.auth.service;
 
 import com.example.Dblog.global.jwt.*;
 import com.example.Dblog.domain.user.entity.Role;
-import com.example.Dblog.domain.user.dto.UserRequestDto;
+import com.example.Dblog.domain.user.presentation.dto.UserRequestDto;
 import com.example.Dblog.domain.user.entity.UserEntity;
 import com.example.Dblog.domain.user.entity.repository.UserRepository;
 import com.example.Dblog.global.jwt.entity.JwtToken;
