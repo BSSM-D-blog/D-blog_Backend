@@ -31,6 +31,7 @@ public class AuthService {
 
     @Transactional
     public boolean create(UserRequestDto userCreateForm, BindingResult bindingResult) {
+        System.out.println("회원가입 실행");
         if (bindingResult.hasErrors()) {
             return false;
         }

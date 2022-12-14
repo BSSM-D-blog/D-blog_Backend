@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/api/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

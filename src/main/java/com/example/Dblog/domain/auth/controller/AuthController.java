@@ -37,7 +37,7 @@ public class AuthController {
         authService.logout(token);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/auth/refresh")
     public ResponseEntity<RefreshApiResponseMessage> validateRefreshToken(@RequestBody Map<String, String> bodyJson){
         log.info("refresh controller 실행");
         Map<String, String> map = jwtService.validateRefreshToken(bodyJson.get("refreshToken"));
