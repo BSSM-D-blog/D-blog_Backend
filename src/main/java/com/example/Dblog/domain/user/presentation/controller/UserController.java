@@ -32,15 +32,12 @@ public class UserController {
 
     @PutMapping("/userinfo")
     public void updateProfile(@RequestParam("file") MultipartFile file, @RequestHeader("Authorization") String token){
-        Claims parseToken = jwtTokenProvider.parseJwtToken(token);
-        Optional<UserEntity> user = userRepository.findByUsername(parseToken.getSubject());
-        FileEntity saveFile = fileService.saveFile(file);
-        user.ifPresent(userEntity -> userService.updateProfile(saveFile.getServerPath() , userEntity));
+        userService.updateProfile(token, file);
     }
 
-    @GetMapping("/user/{id}")
-    public Map<String, Object> getPersonalInfo(@PathVariable Long id) {
-        return userService.getPersonalInfo(id);
+    @GetMapping("/user/{userId}")
+    public Map<String, Object> getPersonalInfo(@PathVariable Long userId) {
+        return userService.getPersonalInfo(userId);
     }
 }
 

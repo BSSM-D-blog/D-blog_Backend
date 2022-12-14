@@ -1,12 +1,10 @@
 package com.example.Dblog.domain.user.service;
 
-import com.example.Dblog.domain.board.entity.BoardEntity;
-import com.example.Dblog.domain.board.entity.repository.BoardRepository;
-import com.example.Dblog.domain.board.presentation.dto.BoardResponseDto;
-import com.example.Dblog.domain.board.service.BoardService;
 import com.example.Dblog.domain.category.dto.CategoryDto;
 import com.example.Dblog.domain.category.entity.CategoryEntity;
 import com.example.Dblog.domain.category.entity.repository.CategoryRepository;
+import com.example.Dblog.domain.file.entity.FileEntity;
+import com.example.Dblog.domain.file.service.FileService;
 import com.example.Dblog.domain.user.presentation.dto.UserResponseDto;
 import com.example.Dblog.domain.user.entity.UserEntity;
 import com.example.Dblog.domain.user.entity.repository.UserRepository;
@@ -14,6 +12,7 @@ import com.example.Dblog.global.jwt.JwtTokenProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.*;
@@ -24,12 +23,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final CategoryRepository categoryRepository;
-    private final BoardRepository boardRepository;
-    private final BoardService boardService;
+    private final FileService fileService;
 
     @Transactional
-    public void updateProfile(String path, UserEntity user){
-        user.setProfile(path);
+    public void updateProfile(String token, MultipartFile file){
+        Claims parseToken = jwtTokenProvider.parseJwtToken(token);
+        UserEntity user = userRepository.findByUsername(parseToken.getSubject()).orElseThrow(() -> new IllegalArgumentException("없는 사용자"));
+        FileEntity saveFile = fileService.saveFile(file);
+        user.setProfile(saveFile.getServerPath());
         userRepository.save(user);
     }
 
@@ -44,7 +45,6 @@ public class UserService {
     public Map<String, Object> getPersonalInfo(Long id) {
         Optional<UserEntity> user = userRepository.findById(id);
         List<CategoryEntity> category = categoryRepository.findByUser(id);
-        List<BoardEntity> board = boardRepository.findByUser(user.get().getUsername());
 
         List<CategoryDto> categoryDtoList = new ArrayList<>();
         for(CategoryEntity categoryEntity : category){
@@ -56,14 +56,10 @@ public class UserService {
             categoryDtoList.add(cate);
         }
 
-        List<BoardResponseDto> boardResponseDtoList = new ArrayList<>();
-        boardService.getBoardList(board, boardResponseDtoList);
-
         Map<String, Object> getPersonalInfoMap = new HashMap<>();
         getPersonalInfoMap.put("profile", user.get().getProfile());
         getPersonalInfoMap.put("nickname", user.get().getNickname());
         getPersonalInfoMap.put("category", categoryDtoList);
-        getPersonalInfoMap.put("board", boardResponseDtoList);
 
         return getPersonalInfoMap;
     }
