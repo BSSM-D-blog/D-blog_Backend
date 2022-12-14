@@ -1,7 +1,7 @@
 package com.example.Dblog.domain.comment.service;
 
-import com.example.Dblog.domain.comment.dto.CommentRequestDto;
-import com.example.Dblog.domain.comment.dto.CommentResponseDto;
+import com.example.Dblog.domain.comment.presentation.dto.CommentRequestDto;
+import com.example.Dblog.domain.comment.presentation.dto.CommentResponseDto;
 import com.example.Dblog.domain.comment.entity.CommentEntity;
 import com.example.Dblog.domain.comment.entity.repository.CommentRepository;
 import com.example.Dblog.domain.user.entity.UserEntity;
@@ -72,11 +72,8 @@ public class CommentService {
 
     public void setResponse(List<CommentResponseDto> response, List<CommentEntity> comment) {
         for(CommentEntity co : comment){
-            Optional<UserEntity> getUser = userRepository.findById(co.getUser());
-            CommentResponseDto res = null;
-            if(getUser.isPresent()) {
-                res = new CommentResponseDto(co, getUser.get().getProfile(), getUser.get().getNickname());
-            }
+            UserEntity getUser = userRepository.findById(co.getUser()).orElseThrow(() -> new IllegalArgumentException("사용자가 없음"));
+            CommentResponseDto res = new CommentResponseDto(co, getUser.getProfile(), getUser.getNickname(), getUser.getId());
             response.add(res);
         }
     }

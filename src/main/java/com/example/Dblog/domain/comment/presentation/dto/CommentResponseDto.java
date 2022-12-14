@@ -1,4 +1,4 @@
-package com.example.Dblog.domain.comment.dto;
+package com.example.Dblog.domain.comment.presentation.dto;
 
 import com.example.Dblog.domain.comment.entity.CommentEntity;
 import lombok.Getter;
@@ -13,13 +13,15 @@ public class CommentResponseDto {
     private LocalDateTime modified;
     private String profile;
     private String nickname;
+    private Long userid;
 
-    public CommentResponseDto(CommentEntity comment, String profile, String nickname){
+    public CommentResponseDto(CommentEntity comment, String profile, String nickname, Long userid){
         this.id = comment.getId();
         this.content = comment.getContent();
         this.created = comment.getCreated();
         this.modified = comment.getModified();
         this.profile = profile;
         this.nickname = nickname;
+        this.userid = userid;
     }
 }

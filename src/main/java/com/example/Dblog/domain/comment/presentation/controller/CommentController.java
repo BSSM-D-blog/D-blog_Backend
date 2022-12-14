@@ -1,7 +1,7 @@
-package com.example.Dblog.domain.comment.controller;
+package com.example.Dblog.domain.comment.presentation.controller;
 
-import com.example.Dblog.domain.comment.dto.CommentRequestDto;
-import com.example.Dblog.domain.comment.dto.CommentResponseDto;
+import com.example.Dblog.domain.comment.presentation.dto.CommentRequestDto;
+import com.example.Dblog.domain.comment.presentation.dto.CommentResponseDto;
 import com.example.Dblog.domain.comment.service.CommentService;
 import com.example.Dblog.global.error.ReponseStatus;
 import com.example.Dblog.global.error.ResponseMessage;
