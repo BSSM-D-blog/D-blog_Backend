@@ -9,10 +9,11 @@ import javax.ws.rs.HttpMethod;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry){
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("classpath:/images/");
+                .addResourceLocations("file:///C:/Dblog/images/");
     }
 
     @Override

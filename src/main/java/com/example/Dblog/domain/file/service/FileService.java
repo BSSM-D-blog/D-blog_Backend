@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 public class FileService {
     private final FileRepository fileRepository;
-    private final String savePath = System.getProperty("user.dir") + "\\src\\main\\resources\\images";
+    private final String savePath = "C:/Dblog/images";
 
     @Autowired
     ServletContext servletContext;
@@ -84,12 +84,14 @@ public class FileService {
                 }
                 String originFileName = file.get().getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
+
                 assert originFileName != null;
                 String extension = originFileName.substring(originFileName.lastIndexOf("."));
                 String fileName = uuid + extension;
                 String filePath = savePath + "\\" + fileName;
                 file.get().transferTo(new File(filePath));
                 String saveServerPath = "http://10.150.149.114:8080/images/" + fileName;
+
                 entity.setOriginalname(originFileName);
                 entity.setFilename(fileName);
                 entity.setFilepath(filePath);
@@ -102,10 +104,9 @@ public class FileService {
     }
 
     @Transactional
-    public boolean deleteFile(FileEntity file){
+    public void deleteFile(FileEntity file){
         File file1 = new File(savePath + "\\" + file.getFilename());
         boolean result = file1.delete();
         fileRepository.delete(file);
-        return result;
     }
 }
